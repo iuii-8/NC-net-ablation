@@ -97,6 +97,10 @@ def main():
         default="./dataset/dataset_autotemplate/autotemplate_errors.csv",
         help="Path to save failed AutoTemplate-origin samples for error analysis.",
     )
+    
+    # 【修改点 1】: 添加了解耦实验需要的禁用规则纠错开关
+    parser.add_argument("--disable_rule_correction", action="store_true", help="Disable Visualization-aware Translation (rule correction)")
+    
     opt = parser.parse_args()
     print("the input parameters: ", opt)
 
@@ -147,6 +151,9 @@ def main():
     overall_match = 0
     error_rows = []
 
+    # 【修改点 2】: 提取开关状态
+    enable_rules = not opt.disable_rule_correction
+
     for index, row in tqdm(autotemplate_df.iterrows(), total=len(autotemplate_df)):
         original_row = original_df.iloc[index]
         originally_without_template = is_original_without_template(original_row["source"])
@@ -176,7 +183,10 @@ def main():
             )
 
             pred_query = " ".join(translation).replace(" <eos>", "").lower()
-            pred_query = postprocessing(gold_query, pred_query, True, src)
+            
+            # 【修改点 3】: 将原本写死的 True 替换为由命令行参数控制的 enable_rules
+            pred_query = postprocessing(gold_query, pred_query, enable_rules, src)
+            
             matched = normalize_query(gold_query) == normalize_query(pred_query)
 
             overall_cnt += 1
