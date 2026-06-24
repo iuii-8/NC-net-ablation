@@ -158,104 +158,8 @@ ncNet AutoTemplate overall: 0.7841463414634147
 
 > The original ncNet paper reports average accuracies of 77.8% and 79.6% for the settings without and with chart templates, respectively. In our experiment, after replacing the original no-template inputs with chart templates predicted by AutoTemplate, ncNet achieves 78.29% accuracy on the 2,460 original no-template test cases. This is 0.49 percentage points higher than the no-template result reported in the original paper and only 0.25 percentage points lower than our reproduced manual-template setting, which achieves 78.54%. These results indicate that AutoTemplate can provide effective structural guidance without requiring manually annotated chart templates, achieving performance close to that of manual templates.
 
-## 7. 成员 C 后续建议分析方向
 
-成员 C 可以重点做以下分析：
-
-### 7.1 错误样本分析
-
-分析文件：
-
-```text
-NC/dataset/dataset_autotemplate/autotemplate_errors.csv
-```
-
-建议统计错误类型：
-
-1. chart type 错误：`bar / line / point / arc` 是否预测错；
-2. aggregate function 错误：`count / sum / mean / max / min / none` 是否错误；
-3. sort 错误：排序轴 `x/y/o` 或排序方向 `asc/desc` 是否错误；
-4. filter 错误：过滤条件是否缺失或生成错误；
-5. group/bin 错误：是否漏掉 group 或 bin；
-6. column selection 错误：x/y/color 字段是否选错；
-7. exact match 过严：语义接近但字符串不完全一致的情况。
-
-### 7.2 分类型准确率分析
-
-建议按以下维度重新统计：
-
-- chart type：bar / line / point / arc；
-- hardness：Easy / Medium / Hard / Extra Hard；
-- 是否包含 filter；
-- 是否包含 sort；
-- 是否包含 group；
-- 是否包含 bin；
-- 是否包含 topk。
-
-### 7.3 与论文图表对齐
-
-原论文对比维度包括：
-
-- different hardness levels；
-- different visualization types；
-- heatmap 中不同 case 的 100% accuracy 区域。
-
-成员 C 可以将当前 AutoTemplate 结果按同样维度拆分，制作对比表或柱状图。
-
-## 8. 需要交给成员 C 的文件清单
-
-### 8.1 必交文件
-
-请至少交付以下文件或文件夹：
-
-```text
-NC/test_autotemplate.py
-NC/dataset/dataset_autotemplate/train.csv
-NC/dataset/dataset_autotemplate/dev.csv
-NC/dataset/dataset_autotemplate/test.csv
-NC/dataset/dataset_autotemplate/autotemplate_errors.csv
-NC/dataset/dataset_final/train.csv
-NC/dataset/dataset_final/dev.csv
-NC/dataset/dataset_final/test.csv
-NC/dataset/database_information.csv
-NC/dataset/db_tables_columns.json
-NC/dataset/db_tables_columns_types.json
-NC/save_models/trained_model.pt
-ncnet/processed_data/train_with_predicted_template.json
-ncnet/processed_data/dev_with_predicted_template.json
-ncnet/processed_data/test_with_predicted_template.json
-ncnet/build_official_autotemplate_dataset.py
-results/result.md
-```
-
-### 8.2 建议一并交付的文件
-
-```text
-NC/test.py
-NC/train.py
-NC/model/
-NC/preprocessing/build_vocab.py
-ncnet/predict_template.py
-ncnet/train_template_predictor.py
-ncnet/template_model.py
-ncnet/template_dataset.py
-ncnet/label_config.py
-ncnet/save_template_model/best_template_predictor.pt
-ncnet/save_template_model/vocab.json
-ncnet/save_template_model/training_log.json
-```
-
-### 8.3 如果从云端取回结果
-
-云端完整测试后生成的错误分析文件应优先使用云端版本：
-
-```text
-/root/NC/dataset/dataset_autotemplate/autotemplate_errors.csv
-```
-
-建议从云端下载该文件覆盖本地同名文件，避免混用本地调试环境产生的错误分析文件。
-
-## 9. 复现实验命令
+## 7. 复现实验命令
 
 云端推荐环境：
 
@@ -277,10 +181,8 @@ python test_autotemplate.py | tee autotemplate_full_result.log
 python test_autotemplate.py -limit 100
 ```
 
-## 10. 注意事项
+## 8. 注意事项
 
 1. 正式结果必须基于云端 `Python 3.8 + PyTorch 1.7.1 + torchtext 0.8.1` 环境。
 2. 本地 Windows 调试环境的 `torchtext` 兼容补丁可能造成词表顺序不一致，不能作为最终实验结果。
 3. `autotemplate_errors.csv` 请优先使用云端完整测试生成的版本。
-4. 如果成员 C 要做错误分析，建议同时保留 `source / gold / pred / question / db_id / tvBench_id` 字段。
-5. 如果要写报告，建议重点强调：AutoTemplate 接近人工模板效果，而不是宣称大幅超过原论文人工模板上限。
