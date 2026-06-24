@@ -36,13 +36,6 @@ ncNet w/o template    | 49.31%            | 64.43%              | +15.12%
 ncNet with template   | 58.13%            | 74.23%              | +16.10%
 Overall Accuracy      | 53.72%            | 69.33%              | +15.61%
 
-* 结论分析：新模型准确率突破 69%，已完美复现原论文在 nvBench 上的基准性能。
-
-5. 交付产物清单 (Handover Artifacts)
-------------------------------------
-* 最优模型权重：./save_models/model_best.pt 
-* 训练全量日志：./logs/ncnet_training_20260416.log
-* 资源开销记录：./logs/gpu_training_monitor.csv（显卡状态监控）
 
                                  REPORT END
 ================================================================================
