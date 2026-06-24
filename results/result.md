@@ -1,6 +1,5 @@
-# AutoTemplate + ncNet 实验结果交接文档
+# AutoTemplate + ncNet 实验结果
 
-本文档用于交接给成员 C，供其继续进行结果复核、错误分析与报告撰写。
 
 ## 1. 实验目标
 
