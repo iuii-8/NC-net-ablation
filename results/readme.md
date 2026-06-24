@@ -5,12 +5,11 @@
 
 Supporting the translation from natural language (NL) query to visualization (NL2VIS) can simplify the creation of data visualizations because if successful, anyone can generate visualizations by their natural language from the tabular data.
 
-<img src="./img/teaser.png" width="700">
 
 We present <b>ncNet</b>, <i>a Transformer-based model for supporting NL2VIS</i>, with several novel visualization-aware optimizations, including using attention-forcing to optimize the learning process, and visualization-aware rendering to produce better visualization results.
 
 ## Input and Output
-<img src="./img/inoutput.png" width="700">
+
 
 <b>Input:</b> 
 * a tabular dataset (csv, json, or sqlite3) 
@@ -48,8 +47,7 @@ Install Python dependency via `pip install -r requirements.txt` when the environ
 
 Open the `ncNet.ipynb` to try the running example.
 
-<img src="./img/example0.png" width="675">
-<img src="./img/example.png" width="700">
+
 
 ## Training
 
